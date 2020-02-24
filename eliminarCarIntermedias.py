@@ -18,12 +18,13 @@ import pathlib
 import csv
 import glob
 import shutil
+from os import rmdir
 
 
 os.chdir('/Users/andre/OneDrive/Escritorio/TFG/Codigo')#C:\Users\andre\OneDrive\Escritorio\BiometryVoice\BiometriaPorVoz-master
 os.getcwd()
 
-listaIds = []
+listaIds = [] #En vez de usar el csv, metemos en una lista los ides
 ide = "id"
 numero = 10270
 for i in range (0,40):
@@ -33,13 +34,14 @@ for i in range (0,40):
     i = i+1
 #print(listaIds)
 
-#listaWavs = []
 contador = 0
-lista=[]
+lista=[]#Esta es la lista auxiliar para cambiar el nombre de los wavs
 
 for carpetasIdes in listaIds:
     carpetasRaras = os.listdir(f'./datasetCompletoPruebas/{carpetasIdes}')
     for x in carpetasRaras:
+        #rmdir(f'./datasetCompletoPruebas/{carpetasIdes}/{x}') #NO ME DEJA ELIMINAR CARPETAS RARAS POR PERMISOS
+        
         files = os.listdir(f'./datasetCompletoPruebas/{carpetasIdes}/{x}')
         for fname in files:
             fname = f'./datasetCompletoPruebas/{carpetasIdes}/{x}/{fname}'
@@ -48,10 +50,14 @@ for carpetasIdes in listaIds:
             lista.append(("au") + str(contador))
             #print(lista)
             
-            os.rename(fname, f'./datasetCompletoPruebas/{carpetasIdes}/{x}/{lista[contador]}.wav')
+            #ASI RENOMBRAMOS - HACEMOS ESTO LO PRIMERO
+            #os.rename(fname, f'./datasetCompletoPruebas/{carpetasIdes}/{x}/{lista[contador]}.wav')
+            
+            #ASI MOVEMOS - LO SEGUNDO
+            #shutil.move(fname, f'./datasetCompletoPruebas/{carpetasIdes}/{lista[contador]}.wav')
+            
             contador = contador + 1
-            #print(lista)
-            #print(contador)
+            #print(contador) #Numero de wavs que hay en todo el dataset
 
 print("--------END---------")
 
